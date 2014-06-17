@@ -42,4 +42,36 @@ Create static member class (builder) with the same parameters as buildee class. 
 Buildee {int param1, param2..., param100; public static class Builder {int param1...100 = 0; public Builder(){} public Builder setParamN(int val) {paramN=val;} public Buildee build() {return new Buildee(this);} }// end of Builder
 private Buildee (Builder b) {paramN = b.paramN } }// end of Buildee
 
- 
+3. Singleton
+============
+
+Preferred way is to use one-element Enum
+public enum Elvis { INSTANCE; /* members of class */ }
+
+4. Noninstantiability
+=====================
+
+Using private parameterless constructor, can throw AssertionError() in the body. Useful for utility classes with all static methods, or Arrays, Collections -like classes.
+
+5. Avoid creating unnecessary objects
+=====================================
+
+Always reuse immutable objects. Typically String s = new String("my string"); is stupid idea in most cases.
+Use static factory method is available, they can return existing instance, the constructors always create new instance,
+for instance, use Boolean.valueOf(String) instead new Boolean(String)
+You can reuse mutable object too, if the logic of your program don't need to change that objects.
+Prefere primitives over boxed primitives if possible (e.g.: use long instead of Long)
+
+6. Eliminate obsolete object references
+=======================================
+
+Ensure the garbage collector can remove the unnecessary objects. Explicitely null the reference if needed. The best way is to have references in narrowest possible score.
+
+
+
+
+
+
+
+
+
