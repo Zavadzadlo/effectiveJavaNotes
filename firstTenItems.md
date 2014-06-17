@@ -34,7 +34,7 @@ Used if the class has many (optional) parameters. Constructors and factory metho
  * the object is in inconsistent state
  * more difficult to be thead-safe
 
-Builder
+* Builder
 
 Create static member class (builder) with the same parameters as buildee class. Create private factory method or constructor in buildee class that expects builder instance and extracts all the information from builder when creating the buildee instance. Builder contains the build() method that uses this private factory method or constructor.
 
