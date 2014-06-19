@@ -102,7 +102,7 @@ Important for hash-based solutions, typically subclasses of Collection, Map clas
 * create variable that will store the hashes of fields, let's call it fieldHash, fill it using rules below
 * boolean -> FALSE 0, TRUE 1
 * byt, char, short, int -> just cast to int
-* long f -> (int) (f ^ (f >>> 32))
+* long f -> (int) (f ^ (f >>> 32)); // ^ XOR, >>> unsigned bit right shift
 * float f -> Float.floatToIntBits(f);
 * double f -> Double.doubleToLongBits(f) and hash the resulting long
 * object reference -> use it's own hashCode function
