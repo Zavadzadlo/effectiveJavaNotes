@@ -74,7 +74,41 @@ Unpredictable, don't need to be invoked at once, don't need to be invoked at all
 If using finalize() in subclass and the parent class has finalize() too, you have to explicitely call super.finalize() in order to the subclass' finailze() call the perent's finalize(). There is the finalizer guardian pattern how to run parent's finalize() even if the programmer forgets to call super.finalize() in subclass' finalize().
 
 
+Chapter 2. Methods common to all objects
+========================================
 
+8. Obey the equals contract
+---------------------------
+
+Only if the instances represent some "values", not active entities (e.g. Random class). Reflexivity, Symmetry, Transitivity. Usually broken if you trying to implement interoperability of equals methods in classes and subclasses.
+E.g. You have Point p and PointWithColor pwc class instances. p.equals(pwc) is true since the coordinates are the same, but pws.equals(p) is false because equals in PointWithColor takes color into account.
+
+"There is no way to extend an instantiable class and add a value component while preserving the equals contract."
+
+Hints to create equals method:
+* use == at first
+* use instanceOf (this returns false if first operand is null thus no explicit null check is required)
+* cast argument
+* do the equality test on all the significant fields
+* equals should depend on stable data the instance contains
+ * if class uses some other resources (network connection, database access, related fields should not be taken into consideration of equals method
+* override the hashCode method as well
+
+9. Always override hashCode when you override equals
+----------------------------------------------------
+
+Important for hash-based solutions, typically subclasses of Collection, Map classes. The genaral approach how to tackle the hashCode function is to recursively compute hashes for significant fields and combine them together.
+* store some number, usually a prime in a variable that will store our hash, let's call it result (int result = 17)
+* create variable that will store the hashes of fields, let's call it fieldHash, fill it using rules below
+* boolean -> FALSE 0, TRUE 1
+* byt, char, short, int -> just cast to int
+* long f -> (int) (f ^ (f >>> 32))
+* float f -> Float.floatToIntBits(f);
+* double f -> Double.doubleToLongBits(f) and hash the resulting long
+* object reference -> use it's own hashCode function
+* Arrays or Collections -> compute hashes of all items and combine then together as shown in next bullet
+* null -> arbitrary constant, traditionally just zero (0)
+* result = 31  * result + fieldHash
 
 
 
