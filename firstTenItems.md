@@ -110,6 +110,17 @@ Important for hash-based solutions, typically subclasses of Collection, Map clas
 * null -> arbitrary constant, traditionally just zero (0)
 * result = 31  * result + fieldHash
 
+10. Always override toString
+----------------------------
+
+* useful for diagnosis -> easy log messages
+* useful for value classes -> easy to see the content
+* should return info about all significant fields
+* every information accessible via toString should be available via getters or some other methods
+
+11. Override clone judiciously
+------------------------------
+
 
 
 
