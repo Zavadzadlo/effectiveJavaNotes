@@ -121,7 +121,19 @@ Important for hash-based solutions, typically subclasses of Collection, Map clas
 11. Override clone judiciously
 ------------------------------
 
+12. Consider implementing Comparable
+------------------------------------
 
+* if you have "value" class and it has some "natural ordering"
+* once comparable, many additional features are available (sorting, max, min...), see Collections framework
+* recommended that equals() is consistent with compareTo(), but not required, for instance BigInteger class
+* simpler that equals because interoperability between subclasses is not expected, nor recommended; but possible
+
+Chapter 3. TODO: name
+========================================
+
+13. Minimize the accessibility of classes and members
+-----------------------------------------------------
 
 
 
