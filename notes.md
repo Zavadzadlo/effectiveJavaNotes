@@ -1,4 +1,4 @@
-Chapter 1 Creating and Destroying objects
+Chapter 2. Creating and Destroying objects
 =========================================
 
 1. Static factory method
@@ -74,7 +74,7 @@ Unpredictable, don't need to be invoked at once, don't need to be invoked at all
 If using finalize() in subclass and the parent class has finalize() too, you have to explicitely call super.finalize() in order to the subclass' finailze() call the perent's finalize(). There is the finalizer guardian pattern how to run parent's finalize() even if the programmer forgets to call super.finalize() in subclass' finalize().
 
 
-Chapter 2. Methods common to all objects
+Chapter 3. Methods common to all objects
 ========================================
 
 8. Obey the equals contract
@@ -121,6 +121,15 @@ Important for hash-based solutions, typically subclasses of Collection, Map clas
 11. Override clone judiciously
 ------------------------------
 
+* Cloneable is marker interface, its presence changes the default behavior of Object's protected clone() method
+* typically you start with super.clone()
+* clone() creates instance without using constructors!, although constructors can be used in clone() body
+* if class is final, the clone() can ever return the instance created via constructor
+* in non-final classes, you should return an instance returned by super.clone() thus eventually returned by Object's clone()
+* clone() is not compatible with using final fields reffering to mutable objects
+* it can be better to use copy constructor (e.g. new String("string"); or copy static factory insead copy()
+* copy constructor/static factory method can be interface based (for cloning HashSet to TreeSet: new TreeSet(hashSet))
+
 12. Consider implementing Comparable
 ------------------------------------
 
@@ -129,13 +138,15 @@ Important for hash-based solutions, typically subclasses of Collection, Map clas
 * recommended that equals() is consistent with compareTo(), but not required, for instance BigInteger class
 * simpler that equals because interoperability between subclasses is not expected, nor recommended; but possible
 
-Chapter 3. TODO: name
+Chapter 4. Classes and Interfaces
 ========================================
 
 13. Minimize the accessibility of classes and members
 -----------------------------------------------------
 
 
+
+reading: item 26.
 
 
 
