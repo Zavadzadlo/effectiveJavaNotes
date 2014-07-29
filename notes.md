@@ -144,6 +144,49 @@ Chapter 4. Classes and Interfaces
 13. Minimize the accessibility of classes and members
 -----------------------------------------------------
 
+* properly hide internal implementation and expose API only
+ * better testable, reusable, independently optimized, perf tuned, internals can be replaced in next versions... 
+* as inaccessible as possible
+* beware, protected is part of API, only private and package-private are internals
+* public static final fields should reference immutable object only, otherwise it is not a real constant
+
+14. In public classes use accessor methods, not public fields
+-------------------------------------------------------------
+
+otherwie
+* can't change internal representation without changing API
+* can't enforce invariants
+* can't take auxilliary action when accessing fields
+
+15. Minimize mutability
+-----------------------
+
+Total Immutability
+* no method that modify the state
+* not subclassable (extendable) using final keyword or more flexible static factory method
+* all fields final
+* all fields private so other classes can't access mutable inner objects
+* methods return new object, not the 'this' object (like all String methods)
+* inherently thread-safe, no need for sync; fully shareable between threads
+
+Narow the space of possible states as much as possible
+* the mutable twin of the immutable class can be provided (e.g. String vs StringBuilder)
+
+16. Favor composition over inheritance
+--------------------------------------
+
+* inheritance violates encapsulation, subclasses depend on proper functionality of super classes
+ * super class implementation can be changed any time and possibly break subclass behavior
+* use composition, especially if the class implements some interface
+ * create forwarding (delegating) class that implements the interface which will have the interface as private field
+ * create instrumented class extends the forwarding class and overrides desired methods of forwarding class
+
+17. Design and document for inheritance or else prohibit it
+-----------------------------------------------------------
+
+
+
+
 
 
 reading: item 26.
