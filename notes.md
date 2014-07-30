@@ -184,22 +184,58 @@ Narow the space of possible states as much as possible
 17. Design and document for inheritance or else prohibit it
 -----------------------------------------------------------
 
+* document self-use (every circumstance the overridable method can be invoked under)
+* sometimes you need to expose some internals so they can be overriden due to perf optimizations
+* constructors can't use overridable methods (not properly overriden if sublcass calls the super constructor)
+* Serializable, Clonable -> readObject() and clone() can't call overridable methods too (they are like constructors)
+* never allow inheritance for immutable classes, the wrapper pattern works better in this case
+
+18. Prefer interfaces to abstract classes
+-----------------------------------------
+* existing classes can be retrofitted to implement new interface, abstract classes not
+ * not always you have good place where to insert abstract class into class hierarchy
+* interfaces are ideal for implementing mixins
+* interfaces allow to use wrapper pattern
+* having interface you can always create abstract class anyway (skeletal implementation)
+ * programmers can choose to use it or not
+ * if you don't want use skeletal implementation but some of the pieces are useful:
+  * create inner private class extending skeletal implementation
+* think hard, interface can't be changed in future releases, but you can add method to abstract class
+
+19. Use interfaces only to define types
+---------------------------------------
+
+* don't use marker interfaces (with no methods), it not a good concept alhough it is seen quite often in JDK classes
+* no constant interfaces (with static final field definitions only)
+ * use non-instantiable utility class and static imports instead
+
+20. Prefer class hierarchies to tagged classes
+----------------------------------------------
+
+* tagged class -> contains field that further determine it's "type"
+ * class Figure { enum Shape {RECTANGLE, CIRCLE}; double radius, lenght, width; ... }
+* replace by abstract class with methods that don't depend on tagged field and the subclasses for every tagged value
+
+21. Use function object to represent strategies
+------------------------------------------------
+!!! will be way different with lambda expressions introduced in Java8 !!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 
 reading: item 26.
-
-
-
-
-
-
-
-
-
-
-
-
-
