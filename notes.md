@@ -220,7 +220,14 @@ Narow the space of possible states as much as possible
 ------------------------------------------------
 !!! will be way different with lambda expressions introduced in Java8 !!!
 
-
+* java doesn't allow to transmit function, use object references instead
+* Strategy class: stateless class with method representing the strategy that operates on object passing in as parameters
+* Stategy interface: for strategy class (e.g. Comparator<T> is strategy interface, any implementation is strategy
+* such strategy can be used, Comparator is used in Java Collection Framework (sort, max, ...)
+* create private strategy class and public host class having public interface of strategy class if you don't want to expose strategy class
+* 
+22. Favor static member classes over non-static
+-----------------------------------------------
 
 
 
