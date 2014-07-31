@@ -229,6 +229,25 @@ Narow the space of possible states as much as possible
 22. Favor static member classes over non-static
 -----------------------------------------------
 
+* static member class is defined inside enclosing class and has access even to private members of enclosing class
+* non-static one is associated to specific instance of enclosing class, thus every enclosing instance has its own instance of non-static, which is inefficient if you don't need it
+
+Chapter 5. Generics
+========================================
+
+23. Don't use raw types in new code
+-----------------------------------
+
+* always use generics, there are two exceptions:
+ * instanceOf operator if (someInstance instanceof List) {...}
+ * class literals: List.class
+* List<String> is subtype of List, but not of List<Object>; generics provide type safety
+* List<?> is better than List because you can't add new element into List<?> but null
+ * if you don't know or care, use List<?>, e.g. if (set instanceof Set) { Set<?> set1 = (Set<?>) set; ... }
+
+24. Eliminate unchecked warnings
+--------------------------------
+
 
 
 
