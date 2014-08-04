@@ -248,6 +248,22 @@ Chapter 5. Generics
 24. Eliminate unchecked warnings
 --------------------------------
 
+* always do if possible
+* it not, add @SuppressWarning but to the smallest scope possible and comment why it can't be eliminated
+* it's worth to introduce variable just because it enables us to use smallest scope for @SupressWarning annotation
+
+
+25. Prefer lists to arrays
+--------------------------
+
+* generics lists are more type-safe, type errors revealed in compile-time, not runtime
+* there are many problems with combining arrays and list
+ * varargs
+ * creating array from list in general not possible
+
+26. Favor generics types
+-------------------------
+
 
 
 
