@@ -293,6 +293,19 @@ Chapter 5. Generics
 29. Consider typesafe heterogeneous containers
 ----------------------------------------------
 
+* approach that enables storing instances of different classes in one container(map) in typesafe manner
+* using wrapper with private map, the key is parametrized: Map<Class<T>, Object>
+* the key holds the information about compile-time type after the instance (map value) is stored as Object
+* when using wrapper get, the instance (map value) can be casted properly
+* usage of <Class<T>> as a holder for compile-time type information is called "type token"
+
+Chapter 6. Enums and Annotations
+================================
+
+30. Use Enums instead of int constants
+--------------------------------------
+
+* 
 
 
 
@@ -301,8 +314,4 @@ Chapter 5. Generics
 
 
 
-
-
-
-
-reading: item 29.
+reading: item 30.
