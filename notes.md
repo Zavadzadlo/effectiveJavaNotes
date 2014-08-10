@@ -264,6 +264,34 @@ Chapter 5. Generics
 26. Favor generics types
 -------------------------
 
+* generificatio is quite straightforward, problems can be with arrays
+* you can retype Object arary to (E[]), but you should add @SuppressWarning and make sure that the usage is type-safe
+
+27. Favor generics methods
+--------------------------
+
+* type-safer
+* client doesn't need to cast output
+* it is possible to generify the method declarations without breaking existing clients
+
+28. Use bounded wildcard type to increase API flexibility
+---------------------------------------------------------
+
+* in method declarations using just E can be too restrictive
+* use "? extends E " for producers
+ * if you produce value for List<E> (push), your value should be of type "? extend E" so it can be added to list safely
+* use "? super E" for consumers
+ * if you consume value from List<E> (pull), you can safely store it in variable of type "? super E"
+  * this is less restrictive == more flexisble than using just E
+* avoid using wildcard types as return types
+ * it forces clients to deal with it in client code
+* use Comparable<? super T> in preference to Comparable<T> (same for Comparator class)
+* if type parameter (e.g. E) appears only once in method declaration, replace it by wildcard ("?")
+ * if you have compile errors, (e.g. can't insert item to List<?>), create private helper method that uses E
+ * but in API (public) methods, use wildcard if possible
+
+29. Consider typesafe heterogeneous containers
+----------------------------------------------
 
 
 
@@ -277,7 +305,4 @@ Chapter 5. Generics
 
 
 
-
-
-
-reading: item 26.
+reading: item 29.
