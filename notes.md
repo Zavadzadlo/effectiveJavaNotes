@@ -305,7 +305,34 @@ Chapter 6. Enums and Annotations
 30. Use Enums instead of int constants
 --------------------------------------
 
-* 
+* use if implementing some "naturally enumerated value" like planets, seasons of year, ....
+* use if implementing values that are all known in compile-time (choices on a menu, miscellaneous flags, ...)
+* more convenient (readability, type-safety, ...)
+* provide implementation of Object's method, Comparable, Serializable
+* can contain data, methods, constructors, ...
+* can implement interfaces, can have abstract methods
+* immutable (all fields should be final)
+* if you override toString(), consider also implementing fromString(String) method that returns the Enum instance
+* each instance can have specific behaviour
+ * try to avoid swich statements
+ * create inner private enum (strategy enum) and pass it to outer enum via constructor instead
+
+31. Use instance fields instead of ordinals
+-------------------------------------------
+
+* ordinal() -> very few valid use cases for application developers
+* never derive value associated with enum from its ordinal
+ * create a field and initialize it via constructor instead
+
+32. Use EnumSet instead of bit fields
+-------------------------------------
+
+* if using enum primarily in set, using bit fields we can perform set operations effectively via bit operations
+* EnumSet is designed to replace this pattern, it uses bit vector internally
+* bit: apply(STYLE-ONE | STYLE-TWO), enumset: apply(Enumset.of(Style.ONE, Style.TWO)
+
+33. Use EnumMap instead of ordinal indexing
+-------------------------------------------
 
 
 
@@ -314,4 +341,5 @@ Chapter 6. Enums and Annotations
 
 
 
-reading: item 30.
+
+reading: item 35.
