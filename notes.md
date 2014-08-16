@@ -334,6 +334,28 @@ Chapter 6. Enums and Annotations
 33. Use EnumMap instead of ordinal indexing
 -------------------------------------------
 
+* never use ordinal as indices or keys
+* use EnumMap instead -> it is optimized for Enums using as keys
+* use nested EnumMap if mapping from two or more Enums is required
+
+34. Emulate extensible Enums via interfaces
+-------------------------------------------
+
+* enums can implement interface
+* if API uses interface strictly, you can create other enum implementing the interface
+ * this enum can be used in addition to original one
+
+35. Prefer annotations to naming patterns
+-----------------------------------------
+* naming pattern -> if client code (some framework) derives some meta information about method from method name
+ * e.g. JUnit considered all methods starting with test...() to be test methods
+* now there is no reason for this, use annotations instead
+ * the framework can via reflection access the annotations and do some processing
+ * annotations can have fields, so you can store there values required for the processing
+* use predefined annotation types provided by the Java Platform (e.g. @Override)
+
+36. Consistently use @Override annotation
+-----------------------------------------
 
 
 
@@ -341,5 +363,4 @@ Chapter 6. Enums and Annotations
 
 
 
-
-reading: item 35.
+reading: item 36.
