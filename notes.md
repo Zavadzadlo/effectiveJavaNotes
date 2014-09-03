@@ -357,6 +357,20 @@ Chapter 6. Enums and Annotations
 36. Consistently use @Override annotation
 -----------------------------------------
 
+* you can discover errors at compile time
+ * both unintentional overriding and not-overriding when desired
+* use consistently everytime you believe you overriding a superclass declaration
+ * not needed if overiding abstract method, compiler will generate error anyway
+
+37. Use marker interfaces (MI) to define types
+-----------------------------------------
+
+* advantages over marker annotations (MA)
+ * MI define types so you can use them as input/output parameters in method declarations
+ * can be targeted more precisely, e.g. only on specific subclasses
+* advantages of MA
+ * more information can be added after the release
+ * can be added to any program element, not only on class level
 
 
 
