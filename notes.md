@@ -372,9 +372,84 @@ Chapter 6. Enums and Annotations
  * more information can be added after the release
  * can be added to any program element, not only on class level
 
+38. Check parameters for validity
+---------------------------------
+
+* method can fail quickly and cleanly with approprate exception
+* for public methods use @throws tag in javadoc
+* for private use assert instead of exceptions
+* particulary important for parameters that are stored for later use
+* can be skipped if check is expensive or done implicitly during method execution
+
+39. Make defensive copies when needed
+-------------------------------------
+
+* program defensively with assumption that clients do everything to destroy your code and its invariants
+* make defensive copy of each mutable parameter to the constructor
+* defensive copies created before validity check
+* don't use clone method, it doesn't have to return instance of the class but some untrusted subclass
+ * can be overriden by untrusted parties 
+* return defensive copies of mutable internal fields (in getters)
+ * can use clone method here
+
+
+40. Design method signatures carefully
+--------------------------------------
+
+* choose method name carefully, obey the standard naming conventions
+* don't try to provide method for everything, the client can compose provided methods for more complex functionality
+* avoid long parameter list, especially long sequences of indentically typed parameters
+ * split to more methods
+ * use helper classes that will group some of the parameters
+ * adapt Builder patern (item 2) for the method with many parameters
+ * favor interfaces over classes
+ * prefer two-element enum to boolean parameters
+
+41. Use overloading judiciously
+-------------------------------
+* choice of which method is used is made at compile-time (based on compile type, declared class/interface)
+ * different behaviour that overriding which is based on runtime-type (real used class/implementation of interface)
+* save conservative approach: never overload method with the same number of parameters
+ * use writeInt, writeLong, writeBool instead of overloading write method
+* at least don't overload method with the parameters that can be cast to each other (are related)
+ * beware of auto-(un)boxing, e.g. remove(E) and remote(int) is confusing
+ * you can do this if the overloading methods behave equally (e.g. use the same method internally)
+
+42: Use varargs judiciously
+--------------------------------
+
+* use varargs only when a call really operates on a variable-length sequence of values
+* if one or more params are required, use first param normally and then varargs
+
+43: Return empty arrays or collections, not nulls
+------------------------------------------------------
+
+* client code doesn't have to perform null check
+* creating empty array/collection is not a performance problem
+ * Collections.emptyList() for efficient creating and returning empty collection
+
+44: Write doc comments for all exposed API elements
+---------------------------------------------------
+
+* precede every exported class, interface, constructor, method, and field declaration with a doc comment
+* The doc comment for a method should describe succinctly the contract between the method and its client
+ * summary description, finished by '.' (dot) 
+ * preconditions, postconditions, side effects
+ * param, return tags (followed by noun phrase), throws tag (followed by if...), no '.' at the end
+ * no two members or constructors in a class or interface should have the same summary description
+
+Chapter 8 General Programming
+=============================
+
+45: Minimize the scope of local variables
+-----------------------------------------
+
+* declare them where they are first used
+* nearly every local variable declaration should contain an initializer, if not, you probably can define it later
+* prefer for loops to while loops (because of local variable i doesn't escape the scope of the loop)
+* keep methods small and focused
+ 
 
 
 
-
-
-reading: item 36.
+reading: item 62.
