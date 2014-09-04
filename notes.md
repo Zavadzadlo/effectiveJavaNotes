@@ -431,6 +431,10 @@ Chapter 6. Enums and Annotations
 44: Write doc comments for all exposed API elements
 ---------------------------------------------------
 
+* what it does instead of how
+ * unless designed for inheritance
+* document serializable form if serializable
+* thread-safety-ness
 * precede every exported class, interface, constructor, method, and field declaration with a doc comment
 * The doc comment for a method should describe succinctly the contract between the method and its client
  * summary description, finished by '.' (dot) 
@@ -449,6 +453,72 @@ Chapter 8 General Programming
 * prefer for loops to while loops (because of local variable i doesn't escape the scope of the loop)
 * keep methods small and focused
  
+46: Prefer for-each loops to traditional for loops
+--------------------------------------------------
+
+* simpler, less opportunities for errors
+* scope of 'i' variable doesn't leak out of the loop
+* sometimes you really need index, in such cases traditional loop is perfectly ok
+ * e.g. filtering, transforming or parallel access 
+
+47: Know and use the libraries
+------------------------------
+
+* don't reinvent a wheel (useless effort)
+* take advantage of the knowledge of experts
+* take advantage of the experience of many users
+* libraries can be improved over time (e.g. performance)
+* libraries can be extended by new features
+
+48: Avoid float and double if exact answers are required
+--------------------------------------------------------
+
+* impossible to represent 0.1 (or any other negative power of ten) as a float or double exactly
+ * it's periodic in binary system
+* use BigDecimal, int or long if possible (by converting to non-fractional aritmethics)
+ * int -> at most 9 decimal digits
+ * long -> at most 18 decimal digits
+
+49: Prefer primitive types to boxed primitives
+----------------------------------------------
+
+* beware of auto-(un)boxing
+* applying the == operator to boxed primitives is almost always wrong, equals/compare has to be used
+* when you mix primitives and boxed primitives in a single operation, the boxed primitive is auto-unboxed
+* when your program does unboxing, it can throw NPE
+ * boxed can be null, unboxed can't
+* primitives are more time- and space- efficient
+* primitives can't be used as type parameters
+
+50: Avoid strings where other types are more appropriate
+--------------------------------------------------------
+
+* strings are poor substitutes for other value types, convert as soon as possible to more appropriate type
+ * create more appropriate type if not available rather than misusing strings
+
+51: Beware the performance of string concatenation
+--------------------------------------------------
+
+* concatenate n strings requires time quadratic in n
+* use a StringBuilder in place of a String
+
+52: Refer to objects by their interfaces
+----------------------------------------
+
+* parameters, return values, variables, and fields should all be declared using interface types if possible
+* the only time when you really need to use the class is when using constructor
+* brings the flexibility to switch implementation later
+ * beware, implementation can bring some functionality beyond the contract of interface (thread-safety, etc...)
+
+
+
+
+
+
+
+
+
+
 
 
 
