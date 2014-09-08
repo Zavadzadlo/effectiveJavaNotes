@@ -509,8 +509,56 @@ Chapter 8 General Programming
 * the only time when you really need to use the class is when using constructor
 * brings the flexibility to switch implementation later
  * beware, implementation can bring some functionality beyond the contract of interface (thread-safety, etc...)
+* it is ok to refer to an object by a class if no appropriate interface exists (e.g value classes like String)
+
+53: Prefer interfaces to reflection
+-----------------------------------
+
+* disadvangates of reflection
+ * you loose all the benefits of compile-time checking
+ * code is clumsy, verbose, IDEs don't help (no autofill)
+ * performance suffers
+ * object should not be accessed reflectively in normal applications at runtime
+* you can avoid many of disadvatages is you use reflection only for instantiation
+ * and you use some interface or superclass available at compile-time 
+
+54: Use native methods judiciously
+----------------------------------
+
+* legitimate to use native methods to access platform-specific facilities only
+ * modern JVMs offer much of what needed to be done using native methods
+* with modern JVMs, it's rarely advisable to use native methods for improved performance
+* applications using native methods are far less portable
+* more difficult to debug
+* glue code (between native and java) is tedious to write, difficult to read
 
 
+55: Optimize judiciously
+------------------------
+
+* Strive to write good programs rather than fast ones
+ * good program are flexible enough for later optimization if needed
+* strive to avoid design decisions that limit performance
+ * APIs, wire-level protocols, persistent data format are most usual desigh decisions
+ * can't be changed after release and can affect performace
+ * e.g. making object API manipulates with immutable
+* measure performance before and after each attempted optimization
+ * can be different on different JVMs
+* no amount of low-level optimization will do good if you chose not appropriate algorithm
+
+
+56: Adhere to generally accepted naming conventions
+---------------------------------------------------
+
+* url-like for packages, first capital for classes, first lower case for variables, camel case
+* uppercase with underscores for constants, T for arbitrary type, E for elements in collections/arrays
+
+
+Chapter 9. Exceptions
+=====================
+
+57: Use exceptions only for exceptional conditions
+--------------------------------------------------
 
 
 
