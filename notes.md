@@ -560,6 +560,71 @@ Chapter 9. Exceptions
 57: Use exceptions only for exceptional conditions
 --------------------------------------------------
 
+* don't use for ordinary control flow
+* A well-designed API must not force its clients to use exceptions for ordinary control flow
+ * create "state-testing" method (e.g. hasNext()) for every "state-dependent" method (e.g. next())
+
+58: Use checked exceptions for recoverable conditions and runtime exceptions for programming errors
+---------------------------------------------------------------------------------------------------
+
+* use checked exceptions for conditions from which the caller can reasonably be expected to recover
+ * so it makes sense to catch them and do some action to recover 
+* use runtime exceptions to indicate programming errors
+ * most typical use is for precondition violations
+ * there is a strong
+* errors are for use by the JVM to indicate resource deficiencies, invariant failures, ... (by convention)
+ * all of the unchecked throwables you implement should subclass RuntimeException
+ * don't create your own errors
+* provide methods that enables access to information that could help the caller to recover
+ * especially for checked exceptions
+ * exception is full-fledged object, can be extended, can have fields, methods...
+
+59: Avoid unnecessary use of checked exceptions
+-----------------------------------------------
+
+* overuse of checked exceptions can make an API far less pleasant to use
+* only if programmer using the API can take some useful action in case of exception, it should be checked
+* think twice if your method throws only one exception
+ * if more, the method will probably be surrounded by try-catch block anyway
+* sometimes breaking into two methods (state-testing and state-dependent) can help avoid throwing exception
+
+60: Favor the use of standard exceptions
+----------------------------------------
+
+* in general, code reuse is good, it holds for exceptinos too
+* it makes your API easier to learn and use
+* it's ok to subclass an existing exception if you want to add a bit more failure-capture information
+* most used:
+ * IllegalArgumentException
+ * IllegalStateException
+ * NullPointerException
+ * ConcurrentModificationException
+ * UnsupportedOperationException
+
+61: Throw exceptions appropriate to the abstraction
+---------------------------------------------------
+
+* higher layers should catch lower-level exceptions
+ * in their place, throw exceptions that can be explained in terms of the higher-level abstraction
+ * also called exception translation
+* use exception chaining if lower-level exception might be helpful for debugging
+* the best is
+ * do validity check before using lower-level methods so no exception is thrown
+ * catch and silently react on exception in higher-level (some workaround) so client doesn't notice anything
+
+62: Document all exceptions thrown by each method
+-------------------------------------------------
+
+* declare checked exceptions individually
+* document precisely the conditions under which each one is thrown using the Javadoc @throws tag
+* document unchecked exceptions too
+ * represent programming errors => familiarizing programmers with all of the errors they can make
+ * method’s documentation should describe its preconditions, this you have for free if you document all the exceptions
+* do not use the throws keyword to include unchecked exceptions in the method declaration
+
+63: Include failure-capture information in detail messages
+----------------------------------------------------------
+
 
 
 
