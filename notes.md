@@ -625,6 +625,56 @@ Chapter 9. Exceptions
 63: Include failure-capture information in detail messages
 ----------------------------------------------------------
 
+* detail message of an exception should contain the values of all parameters/fields that “contributed to the exception
+* good approach is to require important info in exceptions' constructors
+ * e.g. IndexOutOfBoundException(int lowerBound, int upperBound, int index)
+ * not used very often though
+* more important for checked exceptions because client should/can take some restore actions
+
+64: Strive for failure atomicity
+--------------------------------
+
+* failed method invocation should leave the object in the state that it was in prior to the invocation
+* free if object is immutable (can just prevent object from creation, but can't modify the state)
+* check validity of param prior to state transitions
+* reorder the operations so that the ones that can fail are done before the ones that do state transitions
+* write recovery code (less common)
+* perform operations on temporary copy
+* sometimes too complex so this is dropped
+
+65: Don’t ignore exceptions
+---------------------------
+
+* an empty catch block defeats the purpose of exceptions
+* at least the catch block should contain a comment explaining why it is appropriate to ignore the exception
+
+Chapter 10. Concurency
+======================
+
+66: Synchronize access to shared mutable data
+---------------------------------------------
+
+* mutual exclusion
+ * to prevent the object to be observed in inconsistent state while being modified by another thread
+* seeing latest state
+ * synchronization is required for reliable communication between threads as well as for mutual exclusion
+ * each thread entering a synchronized method/block sees the effects of all previous modifications
+* reading or writing a variable is atomic unless the variable is of type long or double
+* synchronization has no effect unless both read and write operations are synchronized
+* volatile modifier
+ * performs no mutual exclusion
+ * it guarantees that any thread that reads the field will see the most recently written value
+ * usable if mutual exclusion is achieved by some other way (e.g. having not long/double variable)
+* to be safe
+ * share immutable data
+ * don't share mutable data (confine mutable data to a single thread)
+
+67: Avoid excessive synchronization
+-----------------------------------
+
+
+
+
 
 
 
