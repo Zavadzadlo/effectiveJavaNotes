@@ -672,6 +672,33 @@ Chapter 10. Concurency
 67: Avoid excessive synchronization
 -----------------------------------
 
+* never cede control to the client within a synchronized method or block
+ * alien methods should not be invoked inside synchronized blocks
+ * the class has no knowledge what alien method does, how long it will execute, what locks it requires, ...
+* java locks are reentrant
+* do as little work as possible inside synchronized regions
+* typically don't synchronize internally, let clients use external sync if they need it
+* if a method modifies a static field, you must synchronize access to this field
+ * external sync can't be done on static fields
+
+68: Prefer executors and tasks to threads
+-----------------------------------------
+
+* use Executor Framework, which is a flexible interface-based task execution facility
+ * CachedThreadPool is usually good choice
+  * tasks are not queued, but immediately handed to thread for execution
+ * for heavy loaded systems (such as servers) use FixedThreadPool
+ * refrain using threads
+  * thred is abstraction for unit of work and the mechanism for executing it (both, not good)
+  * task (Runnable, Callable) is abstraction for unit of work only (much better)
+ 
+69: Prefer concurrency utilities to wait and notify
+---------------------------------------------------
+
+ 
+ 
+
+
 
 
 
