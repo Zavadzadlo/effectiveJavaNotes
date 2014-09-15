@@ -695,6 +695,127 @@ Chapter 10. Concurency
 69: Prefer concurrency utilities to wait and notify
 ---------------------------------------------------
 
+* you should use the higher-level concurrency utilities instead
+ * Executor Framework, concurrent collections, synchronizers in java.util.concurrent package
+* it is impossible to exclude concurrent activity from a concurrent collection; locking it will have no effect
+ * do not try to externally synchronize concurrent collection, they are internally synchronized
+* use ConcurrentHashMap in preference to Collections.synchronizedMap or Hashtable
+* CountDownLatch - allows the (one or more) threads to wait for (one or more) other threads to do something
+* for interval timing, always use System.nanoTime in preference to System.currentTimeMillis
+* wait() and notify(all)()
+ * don't use in new code, only in legacy one
+ * wait standard idiom: synchronized(obj) { while(conditionToWaitFor) { obj.wait();} // do something }
+ * always use the wait loop idiom to invoke the wait method; never invoke it outside of a loop
+  * if wait condition already holds and notify(all) were invoked before wait(), the thread can wait forever
+* using wait loop idiom it is reasonable to use notifyAll instead of notify
+ * if some thread is awakened that should not, it checks the condition and start waiting again
+ * you are sure every thread that should be awakened is awakened
+
+70: Document thread safety
+--------------------------
+
+* presence of "synchronized" is an implementation detail, not a part of its exported API
+* to enable safe concurrent use, a class must clearly document what level of thread safety it supports
+ * immutable, unconditionally thread-safe, conditionally thread-safe, not thread-safe, and thread-hostile
+* unconditionally thread-saf
+ * document what methods need sync, what lock to acquire, ...
+* thread-hostile
+ * not thread-safe even if client does external sync 
+ * usually comes from modifying static data (which can't be sync externally)
+* use thread-safety annotations (e.g. @ThreadSafe)
+* if object represents view (e.g. collection.keySet()), use backing object for synchronization
+* publicly accessible lock
+ * enables clients to sync more method calls
+ * vulnerable to denial-of-service attack (malicious client keeping lock for long)
+ * conditionally thread-safe classes (clients can use lock to sync methods)
+* private lock idiom
+ * using private final Object lock to sync (synchronize(lock) { // do something }
+ * useful for classes designed for inheritance
+ * unconditionally thread-safe classes
+
+71: Use lazy initialization judiciously
+---------------------------------------
+
+* normal initialization is preferable to lazy initialization
+ * like other optimization techniques, just don't do it
+* if using lazy init to break an initialization circularity, use a synchronized accessor
+ * synchronized get method with null check, if null, compute value and return, just return otherwise
+* for performance on a static field, use the lazy initialization holder class idiom
+ * a.k.a initialization-on-demand holder class idiom
+ * private static class FieldHolder with final FieldType field variable
+* for performance on an instance field, use the double-check idiom
+ * private volatile FieldType field
+ * getField method with double null check, 2nd one is synchronized, use local temp value for field
+
+72: Don’t depend on the thread scheduler
+----------------------------------------
+
+* highly JVM implementation specific, programs that relies on thread scheduler are nonportable
+* threads should not run if they aren’t doing useful work (no busy waiting)
+* resist the temptation to “fix” the program by putting in calls to Thread.yield
+ * not reliable accross JVMs, no testing semantics
+ * use Thread.sleep(1) instead of Thread.yield
+ * Thread.sleep(0) may be optimized to do nothing
+* also, thread priorities are among the least portable features of the Java platform
+
+73: Avoid thread groups
+-----------------------
+
+* thread groups are obsolete
+
+Chapter 11. Serialization
+=========================
+
+74: Implement Serializable judiciously
+--------------------------------------
+
+* it decreases the flexibility to change a class’s implementation once it has been released
+ * serializable form becomes part of exported API
+ * default serialization causes that private and package-private fields to be part of exported API
+* it increases the likelyhood of bugs and security holes
+ * it is extralinguistic mechanism for creating objects (it bypasses constructors)
+* it increases the testing burden associated with releasing a new version of a class
+ * test whether class is (de)serializable with all the previous versions
+ * test whether deserialized instances are in correct
+* classes designed for inheritance should rarely implement Serializable
+ * interfaces should rarely extend it
+ * the implementation of interface or extension of class becomes much more difficult
+* use readObjectNoData() if creating class that is Serializable and extendable
+ * if it has broken invariants in case fields are initialized to default values
+* provide parameterless constructor for classes designed for inheritance that are not serializable
+ * without it all subclasses can't be serializable too
+ * there is a way (idiom) using Enum (NEW, INITIALIZING, INITIALIZED) to make this properly
+* inner classes should not implement serializable
+ * this uses compiler-defined synthetic fields to store references to enclosing instance, not well serializable
+ * default serialized form of inner class is ill-defined
+
+75: Consider using a custom serialized form
+-------------------------------------------
+
+* do not accept the default serialized form without first considering whether it is appropriate
+ * it binds you with serialized form forever
+* default form can be used if an object’s physical representation is identical to its logical content
+ * e.g. value classes that just contain data
+ * no special fields used solely for internal implementation
+* you often must provide a readObject method to ensure invariants and security
+ * e.g. for testing that certain field has some non-null value if that is required
+ * private fields need to be documented because are part of exported API
+* disadvatages of default serialization (especially if logical and physical representations differ)
+ * it permanently ties the exported API to the current internal representation
+ * it can consume excessive space (other fields than that with data are serialized(stored))
+ * it can consume excessive time (other fields than that with data have to be processed)
+ * it can cause stack overflows (e.g. if serializing lists that has many other-than-data fields, e.g. next references)
+* trasient field means that it won't go into serialized form
+* make every field transient, if it is not part of logical state of the object (it's only implementation detail)
+* make writeObject synchronized if your object is thread-safe
+* always declare explicit serial version UID in serializable classes
+
+76: Write readObject methods defensively
+----------------------------------------
+
+* 
+
+
  
  
 
