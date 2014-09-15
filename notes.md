@@ -813,24 +813,24 @@ Chapter 11. Serialization
 76: Write readObject methods defensively
 ----------------------------------------
 
-* 
+* if having serializable immutable class containing private mutable components
+ * you must defensively copy these components in its readObject method
+ * then you must perform validity and invariants checks
+* do not use the writeUnshared and readUnshared methods, vulnerabilities were discovered
 
+77: For instance control, prefer enum types to readResolve
+----------------------------------------------------------
 
- 
- 
+* use readResolve, otherwise readObject create new instance even if it should be singleton
+* using readResolve for instance control, all instance fields with object reference types must be declared transient
+ * otherwise there are vulnerabilities
+* the accessibility of readResolve is significant
+ * if public, it applies for all subclasses that don't override it => deserialization results in superclass instance
+* you can avoid all this subtleties using single-element Enum type pattern for Singleton implementation
 
+78: Consider serialization proxies instead of serialized instances
+------------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-reading: item 62.
+* serialization proxy pattern
+* create serializable inner private static class that holds the logical data of the enclosing class
+* (de)serialize this class instead of enclosing class
